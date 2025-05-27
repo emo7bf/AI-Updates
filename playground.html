@@ -3,63 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <title>KLA AI Insights – Weekly Digest</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond:700,500,400&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Georgia, serif; line-height: 1.6; color: #333; margin: 40px auto; max-width: 700px; }
-        h1, h2 { color: #2a2a2a; }
-        a { color: #7b506f; text-decoration: underline; }
-        blockquote { border-left: 3px solid #7b506f; padding-left: 12px; margin: 20px 0; color: #555; font-style: italic; }
-        .quote-source { font-size: 0.93em; color: #777; }
-        ul { margin-left: 1.3em;}
+        body {
+            background: #1e1a17;
+            color: #ece0d1;
+            font-family: 'Inter', serif;
+            margin: 40px auto;
+            max-width: 740px;
+            line-height: 1.7;
+        }
+        h1, h2 {
+            font-family: 'EB Garamond', serif;
+            color: #f5deb3;
+            letter-spacing: 0.04em;
+            font-weight: 700;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 0.3em;
+            text-shadow: 1px 2px 4px #2b2118;
+        }
+        h2 {
+            font-size: 1.35em;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        a {
+            color: #bfa166;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        blockquote {
+            border-left: 3px solid #bfa166;
+            padding-left: 14px;
+            margin: 18px 0;
+            color: #f1e4d7;
+            font-style: italic;
+            background: #221d18;
+            border-radius: 5px;
+        }
+        .quote-source {
+            font-size: 0.97em;
+            color: #cbb892;
+        }
+        ul {
+            margin-left: 1.5em;
+        }
+        li {
+            margin-bottom: 0.47em;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 46px;
+            color: #bfa166;
+            letter-spacing: 0.01em;
+        }
+        .updates-section {
+            background: #28211c;
+            border-radius: 11px;
+            padding: 1em 1.2em 1em 1.2em;
+            margin-bottom: 2em;
+            box-shadow: 0 2px 20px #19151270;
+        }
+        b, strong {
+            color: #f3e3c3;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+        }
+        em {
+            color: #bfa166;
+            font-style: italic;
+        }
     </style>
-    <!-- If you want LaTeX support, include MathJax below -->
-    <!--
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    -->
 </head>
 <body>
 
 <h1>KLA AI Insights – Weekly Digest</h1>
 
-<h2>Subject: Enhancing Model Generalization through Fine-Tuning and In-Context Learning</h2>
-<p>
-    This week’s digest spotlights a new study from Google DeepMind and Stanford, with actionable insights on large language model (LLM) customization for real-world enterprise use.<br>
-    Sources: 
-    <a href="https://www.wired.com/story/google-deepmind-gemini-fine-tune-llms/" target="_blank">WIRED</a>,
-    <a href="https://venturebeat.com/ai/fine-tuning-vs-in-context-learning-new-research-guides-better-llm-customization-for-real-world-tasks/" target="_blank">VentureBeat</a>,
-    <a href="https://arxiv.org/abs/2505.09666" target="_blank">arXiv</a>
-</p>
+<div class="updates-section">
+    <h2 style="font-size:1.15em;">Quick AI Bullets</h2>
+    <ul>
+        <li>⚖️ <strong>Fine-tuning vs. ICL:</strong> Combine both for best generalization. <a href="https://venturebeat.com/ai/fine-tuning-vs-in-context-learning-new-research-guides-better-llm-customization-for-real-world-tasks/" target="_blank">[VentureBeat]</a></li>
+        <li>🌐 <strong>Knowledge Graphs:</strong> Build connections fast with LangGraph & NetworkX. <a href="https://www.marktechpost.com/2025/05/15/a-step-by-step-guide-to-build-an-automated-knowledge-graph-pipeline-using-langgraph-and-networkx/" target="_blank">[Marktechpost]</a></li>
+        <li>🎞️ <strong>AI Movie News:</strong> "Pirate Queen: Zheng Yi Sao" is the first full-length AI film.</li>
+        <li>📖 <strong>Empire of AI:</strong> Silicon Valley’s AI drama, now in hardcover. <a href="https://www.theatlantic.com/technology/archive/2025/05/karen-hao-empire-of-ai-excerpt/682798/" target="_blank">[The Atlantic]</a></li>
+        <li>🧠 <strong>Prompting:</strong> Asking the right questions = better results. <a href="https://arxiv.org/abs/2505.09666" target="_blank">[arXiv]</a></li>
+        <li>🤝 <strong>Human + AI:</strong> Learning science boosts collaboration. <a href="https://www.nature.com/articles/s41562-025-02172-y" target="_blank">[Nature]</a></li>
+    </ul>
+</div>
 
-<h2>Deep Dive</h2>
+<h2>GenAI In Practice</h2>
 <ul>
-    <li><b>Fine-tuning:</b> Model weights are updated using your custom dataset. Pro: Fast, efficient at inference. Con: May generalize less robustly.</li>
-    <li><b>In-Context Learning (ICL):</b> No model retraining—just add examples to the prompt. Pro: Best for generalization to new patterns/tasks. Con: More compute required at runtime.</li>
-    <li><b>Hybrid (Augmented Fine-tuning):</b> Use ICL to generate new synthetic training examples, then fine-tune. This can outperform either method alone in real-world generalization.</li>
+    <li><strong>Fine-tuning:</strong> Fast at runtime, less flexible for new problems.</li>
+    <li><strong>ICL:</strong> Flexible for new tasks, but costs more to run.</li>
+    <li><strong>Hybrid:</strong> Use ICL to create extra training data, then fine-tune for best results.</li>
+    <li><strong>Local Hybrid:</strong> Practice single facts (“A > B” → “B < A”).</li>
+    <li><strong>Global Hybrid:</strong> Practice linking facts for bigger problems.</li>
+</ul>
+
+<h2>Prompt Design: System vs. User Prompts</h2>
+<ul>
+    <li><strong>System prompt:</strong> Sets general model behavior. Best: meta-learned prompts like <em>“Think step by step”</em> or <em>“Explain your reasoning.”</em> <a href="https://arxiv.org/abs/2505.09666" target="_blank">[arXiv summary]</a></li>
+    <li><strong>User prompt:</strong> Your specific instruction or question.</li>
 </ul>
 
 <h2>Quotes of the Week</h2>
 
 <blockquote>
-    “Learning how to interact with AI is not unlike being someone who's really good at asking questions. Prompting AI is very similar. You can't just randomly ask a bunch of questions. Asking AI to be an assistant to you requires some expertise and artistry of how to prompt it.”<br>
-    <span class="quote-source">— Jensen Huang, CEO of NVIDIA, as quoted in <a href="https://www.wired.com/story/jensen-huang-nvidia-ai-future/" target="_blank">WIRED</a></span>
+    <em>“Learning how to interact with AI is not unlike being someone who's really good at asking questions… it requires some expertise and artistry.”</em><br>
+    <span class="quote-source">Jensen Huang, NVIDIA CEO, <a href="https://www.wired.com/story/jensen-huang-nvidia-ai-future/" target="_blank">WIRED</a></span>
 </blockquote>
-
 <blockquote>
-    “We thought it was roughly a 20-year mission, and amazingly, we're on track. It's somewhere around there, I would think.”<br>
-    <span class="quote-source">— Demis Hassabis, CEO of Google DeepMind <a href="https://www.benzinga.com/25/05/45599346/why-googles-demis-hassabis-disagrees-with-co-founder-sergey-brin-on-when-agi-will-arrive-and-sets-a-much-higher-bar" target="_blank">Benzinga</a></span>
+    <em>“We thought it was a 20-year mission—and we’re still on track.”</em><br>
+    <span class="quote-source">Demis Hassabis, on AGI timelines, responding to a student’s question at TIME100, <a href="https://time.com/7277608/demis-hassabis-interview-time100-2025/" target="_blank">TIME</a></span>
 </blockquote>
-
 <blockquote>
-    “Anybody who's a computer scientist should not be retired right now. They should be working on AI.”<br>
-    <span class="quote-source">— Sergey Brin, Google Co-founder <a href="https://www.wired.com/story/google-brin-page-ai/" target="_blank">WIRED</a></span>
+    <em>“AI could soon be writing code as fluently as top engineers.”</em><br>
+    <span class="quote-source"><a href="https://www.technologyreview.com/2025/05/23/1082209/ai-coding-next/" target="_blank">MIT Technology Review</a>, May 2025</span>
 </blockquote>
 
 <p>
-If you have insights or updates you'd like featured in next week's issue, please reach out via email. Your contributions are always valued.
+If you want something featured, just email. <strong>Short, sharp, student-tested.</strong>
 </p>
 
-<p>Best,<br>
+<p style="color:#f3e3c3;margin-top:2em;">Best,<br>
 <b>IT Advanced Analytics</b></p>
 
 <footer>
