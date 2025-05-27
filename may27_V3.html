@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KLA AI Insights – Weekly Digest</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', Georgia, serif; line-height: 1.6; color: #333; margin: 40px auto; max-width: 720px; }
+        h1 { font-family: 'Georgia', serif; letter-spacing: 0.02em; }
+        h2 { color: #213; font-weight: 600; }
+        a { color: #7b506f; text-decoration: underline; }
+        blockquote { border-left: 3px solid #7b506f; padding-left: 12px; margin: 20px 0; color: #555; font-style: italic; }
+        .quote-source { font-size: 0.93em; color: #777; }
+        ul { margin-left: 1.3em; }
+        li { margin-bottom: 0.45em; }
+        footer { text-align: center; font-size: 0.83em; margin-top: 46px; color: #888; }
+        .updates-section { background: #f6f4fa; border-radius: 10px; padding: 1em 1.2em 1em 1.2em; margin-bottom: 2em;}
+    </style>
+    <!-- MathJax for LaTeX support (optional) -->
+    <!--
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    -->
+</head>
+<body>
+
+<h1>KLA AI Insights – Weekly Digest</h1>
+
+<div class="updates-section">
+    <h2 style="font-size:1.25em;">Quick AI Updates</h2>
+    <ul>
+        <li>⚖️ <b>Fine-tuning vs. In-Context Learning:</b> Forget “either-or.” The new standard: use both for best results. <a href="https://venturebeat.com/ai/fine-tuning-vs-in-context-learning-new-research-guides-better-llm-customization-for-real-world-tasks/" target="_blank">[VentureBeat]</a></li>
+        <li>🌐 <b>Knowledge Graphs Made Easy:</b> Connect insights into actionable knowledge with LangGraph & NetworkX—both free online! <a href="https://www.marktechpost.com/2025/05/15/a-step-by-step-guide-to-build-an-automated-knowledge-graph-pipeline-using-langgraph-and-networkx/" target="_blank">[Marktechpost]</a></li>
+        <li>🎞️ <b>AI on the Big Screen:</b> The first full-length AI-produced movie, "Pirate Queen: Zheng Yi Sao," is already making headlines. (Admit it: you’re curious.)</li>
+        <li>📖 <b>The Empire of AI:</b> Karen Hao’s new book uncovers the ethical dilemmas and power games shaping Silicon Valley’s AI leaders. <a href="https://www.theatlantic.com/technology/archive/2025/05/karen-hao-empire-of-ai-excerpt/682798/" target="_blank">[The Atlantic]</a></li>
+        <li>🧠 <b>Prompting as an Art Form:</b> Becoming skilled at AI is a lot like mastering the art of the great question—see recent research on prompting strategy. <a href="https://arxiv.org/abs/2505.09666" target="_blank">[arXiv]</a></li>
+        <li>🧑‍🤝‍🧑 <b>Cognitive Science Meets AI:</b> New research in Nature: Human learning principles make AI more collaborative and trainable. <a href="https://www.nature.com/articles/s41562-025-02172-y" target="_blank">[Nature]</a></li>
+    </ul>
+</div>
+
+<h2>Subject: Enhancing Model Generalization through Fine-Tuning and In-Context Learning</h2>
+<p>
+    This week’s digest spotlights new research from Google DeepMind and Stanford, with actionable insights for customizing large language models (LLMs) for enterprise use.<br>
+    Sources: 
+    <a href="https://www.wired.com/story/google-deepmind-gemini-fine-tune-llms/" target="_blank">WIRED</a>,
+    <a href="https://venturebeat.com/ai/fine-tuning-vs-in-context-learning-new-research-guides-better-llm-customization-for-real-world-tasks/" target="_blank">VentureBeat</a>,
+    <a href="https://arxiv.org/abs/2505.09666" target="_blank">arXiv summary</a>
+</p>
+
+<h2>Deep Dive</h2>
+<ul>
+    <li><b>Fine-tuning:</b> Model weights are updated using your custom dataset. Pro: Fast, efficient at inference. Con: May generalize less robustly.</li>
+    <li><b>In-Context Learning (ICL):</b> No model retraining—just add examples to the prompt. Pro: Best for generalization to new patterns/tasks. Con: More compute required at runtime.</li>
+    <li><b>Hybrid (Augmented Fine-tuning):</b> Use ICL to generate new synthetic training examples, then fine-tune. This can outperform either method alone in real-world generalization.</li>
+</ul>
+<ul>
+    <li><b>Local Hybrid Augmentation:</b> Think of this as teaching by example, one step at a time. The model takes single pieces of information and learns to rephrase them or make simple, logical inferences—like flipping a statement (“A is bigger than B” becomes “B is smaller than A”). This gives it extra practice on the basics.</li>
+    <li><b>Global Hybrid Augmentation:</b> Here, the model gets the big picture—lots of info at once, just like how you’d reason with all the facts on the table. It learns to connect the dots, combining multiple ideas to make longer, more complex inferences or explanations. This strengthens its ability to make sense of real-world messiness.</li>
+</ul>
+<p>
+Both strategies, especially when combined, led to significant performance gains—often beating standard fine-tuning or ICL alone. See the <a href="https://arxiv.org/abs/2505.09666" target="_blank">full arXiv summary</a> for details.
+</p>
+
+<h2>Spotlight: Bilevel System Prompt Optimization</h2>
+<p>
+LLMs are only as smart as their prompts. Most work optimizes *user prompts*—the specific queries or tasks you feed in. But what if you could optimize the *system prompt*—the overarching instruction that guides the model’s behavior across any domain?
+</p>
+<ul>
+    <li><b>New challenge:</b> "Bilevel system prompt optimization" seeks a system prompt that’s robust across diverse user prompts and can transfer to unseen tasks.</li>
+    <li><b>How it works:</b> The researchers use a meta-learning approach: they fine-tune the system prompt across many user prompts and datasets, while also updating those user prompts for the best synergy.</li>
+    <li><b>Results:</b> In tests across 14 datasets and 5 domains, the optimized system prompts generalized well—adapting quickly to new tasks and often needing fewer tweaks for top performance.</li>
+    <li><b>Best-performing system prompts:</b> The study found that prompts emphasizing clarity, step-by-step reasoning, and encouraging the model to "think out loud" (e.g., “Let’s think step by step” or “Explain your reasoning in detail”) were the most robust and transferable across all evaluated tasks. Full details: <a href="https://arxiv.org/abs/2505.09666" target="_blank">arXiv summary</a>.</li>
+</ul>
+
+<h2>Quotes of the Week</h2>
+
+<blockquote>
+    “Learning how to interact with AI is not unlike being someone who's really good at asking questions. Prompting AI is very similar. You can't just randomly ask a bunch of questions. Asking AI to be an assistant to you requires some expertise and artistry of how to prompt it.”<br>
+    <span class="quote-source">— Jensen Huang, CEO of NVIDIA, as quoted in <a href="https://www.wired.com/story/jensen-huang-nvidia-ai-future/" target="_blank">WIRED</a></span>
+</blockquote>
+
+<blockquote>
+    “We thought it was roughly a 20-year mission—and amazingly, we're on track.”<br>
+    <span class="quote-source">— Demis Hassabis, CEO of Google DeepMind, as quoted in <a href="https://time.com/7277608/demis-hassabis-interview-time100-2025/" target="_blank">TIME</a></span>
+</blockquote>
+
+<blockquote>
+    “AI could soon be writing code as fluently as top engineers, freeing up humans for higher-level work.”<br>
+    <span class="quote-source">— MIT Technology Review, <a href="https://www.technologyreview.com/2025/05/23/1082209/ai-coding-next/" target="_blank">May 23, 2025</a></span>
+</blockquote>
+
+<p>
+If you have insights or updates you'd like featured in next week's issue, please reach out via email. Your contributions are always valued.
+</p>
+
+<p>Best,<br>
+<b>IT Advanced Analytics</b></p>
+
+<footer>
+    KLA AI Insights – Keeping you informed.
+</footer>
+
+</body>
+</html>

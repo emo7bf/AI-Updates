@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KLA AI Insights – Weekly Digest</title>
+    <style>
+        body { font-family: Georgia, serif; line-height: 1.6; color: #333; margin: 40px auto; max-width: 700px; }
+        h1, h2 { color: #2a2a2a; }
+        a { color: #7b506f; text-decoration: underline; }
+        blockquote { border-left: 3px solid #7b506f; padding-left: 12px; margin: 20px 0; color: #555; font-style: italic; }
+        .quote-source { font-size: 0.93em; color: #777; }
+        ul { margin-left: 1.3em;}
+    </style>
+    <!-- MathJax for LaTeX support (optional) -->
+    <!--
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    -->
+</head>
+<body>
+
+<h1>KLA AI Insights – Weekly Digest</h1>
+
+<h2>Subject: Enhancing Model Generalization through Fine-Tuning and In-Context Learning</h2>
+<p>
+    This week’s digest spotlights a new study from Google DeepMind and Stanford, offering actionable insights on large language model (LLM) customization for real-world enterprise use.<br>
+    Sources: 
+    <a href="https://www.wired.com/story/google-deepmind-gemini-fine-tune-llms/" target="_blank">WIRED</a>,
+    <a href="https://venturebeat.com/ai/fine-tuning-vs-in-context-learning-new-research-guides-better-llm-customization-for-real-world-tasks/" target="_blank">VentureBeat</a>,
+    <a href="https://arxiv.org/abs/2505.09666" target="_blank">arXiv summary</a>
+</p>
+
+<h2>Deep Dive</h2>
+<ul>
+    <li><b>Fine-tuning:</b> Model weights are updated using your custom dataset. Pro: Fast, efficient at inference. Con: May generalize less robustly.</li>
+    <li><b>In-Context Learning (ICL):</b> No model retraining—just add examples to the prompt. Pro: Best for generalization to new patterns/tasks. Con: More compute required at runtime.</li>
+    <li><b>Hybrid (Augmented Fine-tuning):</b> Use ICL to generate new synthetic training examples, then fine-tune. This can outperform either method alone in real-world generalization.</li>
+</ul>
+<ul>
+    <li><b>Local Hybrid Augmentation:</b> Think of this as teaching by example, one step at a time. The model takes single pieces of information and learns to rephrase them or make simple, logical inferences—like flipping a statement (“A is bigger than B” becomes “B is smaller than A”). This gives it extra practice on the basics.</li>
+    <li><b>Global Hybrid Augmentation:</b> Here, the model gets the big picture—lots of info at once, just like how you’d reason with all the facts on the table. It learns to connect the dots, combining multiple ideas to make longer, more complex inferences or explanations. This strengthens its ability to make sense of real-world messiness.</li>
+</ul>
+<p>
+Both strategies, especially when combined, led to significant performance gains—often beating standard fine-tuning or ICL alone. See the <a href="https://arxiv.org/abs/2505.09666" target="_blank">full arXiv summary</a> for details.
+</p>
+
+<h2>Spotlight: Bilevel System Prompt Optimization</h2>
+<p>
+Large language models (LLMs) work best when their input prompts are carefully designed. Most past research has focused on fine-tuning <i>user prompts</i> (the specific questions or instructions you give), but what about the <i>system prompt</i>—the guiding statement that sets the model’s general behavior across many tasks?
+</p>
+<ul>
+    <li><b>New Challenge:</b> The paper introduces “bilevel system prompt optimization”—a method for designing system prompts that work well for all kinds of user queries and can transfer to brand-new tasks or domains.</li>
+    <li><b>How It Works:</b> The researchers use a <b>meta-learning</b> approach: they adjust the system prompt by testing it across lots of user prompts and datasets, constantly updating both for best performance together.</li>
+    <li><b>Results:</b> On 14 new datasets across 5 different domains, their optimized system prompts generalized well, quickly adapting to new queries with less tweaking needed at test time—and often achieving better results.</li>
+</ul>
+<p>
+If you want a deeper dive, check the full research: <a href="https://arxiv.org/abs/2505.09666" target="_blank">arXiv:2505.09666</a>
+</p>
+
+<h2>Quotes of the Week</h2>
+
+<blockquote>
+    “Learning how to interact with AI is not unlike being someone who's really good at asking questions. Prompting AI is very similar. You can't just randomly ask a bunch of questions. Asking AI to be an assistant to you requires some expertise and artistry of how to prompt it.”<br>
+    <span class="quote-source">— Jensen Huang, CEO of NVIDIA, as quoted in <a href="https://www.wired.com/story/jensen-huang-nvidia-ai-future/" target="_blank">WIRED</a></span>
+</blockquote>
+
+<blockquote>
+    “We thought it was roughly a 20-year mission—and amazingly, we're on track.”<br>
+    <span class="quote-source">— Demis Hassabis, CEO of Google DeepMind, as quoted in <a href="https://time.com/7277608/demis-hassabis-interview-time100-2025/" target="_blank">TIME</a></span>
+</blockquote>
+
+<blockquote>
+    “I think you could sort of say 'AGI-pilled' is maybe the right word, that we're quite close to this human-level general intelligence, maybe closer than people thought even a couple of years ago.”<br>
+    <span class="quote-source">— Demis Hassabis, CEO of Google DeepMind, as quoted in <a href="https://www.linkedin.com/pulse/demis-hassabis-strange-futures-lie-ahead-mikael-alemu-gorsky-noapf" target="_blank">LinkedIn</a></span>
+</blockquote>
+
+<blockquote>
+    “AI agents will become the primary way we interact with computers in the future. They will be able to understand our needs and preferences, and proactively help us with tasks and decision making.”<br>
+    <span class="quote-source">— Satya Nadella, CEO of Microsoft, as quoted in <a href="https://skimai.com/10-quotes-on-ai-agents-from-the-top-industry-experts/" target="_blank">Skim AI</a></span>
+</blockquote>
+
+<p>
+If you have insights or updates you'd like featured in next week's issue, please reach out via email. Your contributions are always valued.
+</p>
+
+<p>Best,<br>
+<b>IT Advanced Analytics</b></p>
+
+<footer>
+    KLA AI Insights – Keeping you informed.
+</footer>
+
+</body>
+</html>
