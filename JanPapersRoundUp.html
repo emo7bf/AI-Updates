@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" style="margin:0;padding:0;">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context Is the New Model</title>
+</head>
+
+<body style="margin:0;padding:0;background:#f6f7fb;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f6f7fb;">
+<tr>
+<td align="center">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+       style="max-width:600px;background:#ffffff;margin:0 auto;">
+
+<!-- Header -->
+<tr>
+<td style="background:#41007F;color:#ffffff;padding:24px;">
+  <h1 style="margin:0;font-family:Segoe UI, Roboto, Arial,sans-serif;
+             font-size:26px;line-height:32px;">
+    Context Is the New Model
+  </h1>
+</td>
+</tr>
+
+<tr>
+<td style="background:#00A7E1;color:#081022;padding:10px 24px;">
+  <h2 style="margin:0;font-family:Segoe UI, Roboto, Arial,sans-serif;
+             font-size:18px;line-height:24px;">
+    Memory, Compression, and Judgment in 2026-Era LLM Agents
+  </h2>
+</td>
+</tr>
+
+<!-- Content -->
+<tr>
+<td style="padding:24px;font-family:Segoe UI, Roboto, Arial,sans-serif;
+           font-size:14px;line-height:21px;color:#111111;">
+
+<p>
+By early 2026, the dominant gains in LLM systems no longer come from parameter
+count alone. Instead, performance improvements emerge from how models
+<strong>select, compress, remember, and evaluate context over time</strong>.
+</p>
+
+<p style="font-style:italic;">
+Context is no longer passive input. It is an actively managed resource.
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<!-- 1 -->
+<h3 style="color:#41007F;">1. Retrieval as a Control Problem (UniversalRAG)</h3>
+<p style="margin:4px 0 10px 0;font-size:13px;">
+  <a href="https://arxiv.org/abs/2504.20734" target="_blank">Paper</a> ·
+  <a href="https://arxiv.org/pdf/2504.20734.pdf" target="_blank">PDF</a>
+</p>
+
+<p>
+Traditional RAG treats retrieval as a fixed preprocessing step.
+UniversalRAG reframes retrieval as a dynamic operator inside the reasoning loop.
+</p>
+
+<p style="background:#f2f3f7;padding:10px;border-radius:4px;">
+<code>h_{t+1} = f(h_t, R_t)</code>
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<!-- 2 -->
+<h3 style="color:#41007F;">2. Active Context Compression (Focus)</h3>
+<p style="margin:4px 0 10px 0;font-size:13px;">
+  <a href="https://arxiv.org/abs/2601.07190" target="_blank">Paper</a> ·
+  <a href="https://arxiv.org/pdf/2601.07190.pdf" target="_blank">PDF</a>
+</p>
+
+<p>
+Active Context Compression introduces an agent that decides what to retain,
+summarize, or discard to preserve signal under long contexts.
+</p>
+
+<p style="background:#f2f3f7;padding:10px;border-radius:4px;">
+<code>C_t → Ĉ_t</code>
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<!-- 3 -->
+<h3 style="color:#41007F;">3. Memory as Policy (SimpleMem & AgeMem)</h3>
+<p style="margin:4px 0 10px 0;font-size:13px;">
+  <a href="https://arxiv.org/abs/2601.02553" target="_blank">SimpleMem</a> ·
+  <a href="https://arxiv.org/abs/2601.01885" target="_blank">AgeMem</a> ·
+  <a href="SimpleMem.html">Deep dive</a>
+</p>
+
+<p>
+Rather than appending all interactions, modern agents treat memory as a learned
+control policy over storing, retrieving, merging, and forgetting.
+</p>
+
+<p style="background:#f2f3f7;padding:10px;border-radius:4px;">
+<code>m_k ← g_t ⊙ m_k + (1 − g_t) ⊙ e_t</code>
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<!-- 4 -->
+<h3 style="color:#41007F;">4. Extending Context by Dropping Positional Embeddings (DroPE)</h3>
+<p style="margin:4px 0 10px 0;font-size:13px;">
+  <a href="https://arxiv.org/abs/2512.12167" target="_blank">Paper</a> ·
+  <a href="https://arxiv.org/pdf/2512.12167.pdf" target="_blank">PDF</a> ·
+  <a href="https://pub.sakana.ai/DroPE/" target="_blank">Article</a>
+</p>
+
+<p>
+DroPE shows positional embeddings act as a training scaffold: helpful early,
+but harmful for long-context extrapolation.
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<!-- 5 -->
+<h3 style="color:#41007F;">5. Self-Evolving Search Agents (Dr. Zero)</h3>
+<p style="margin:4px 0 10px 0;font-size:13px;">
+  <a href="https://arxiv.org/abs/2601.07055" target="_blank">Paper</a> ·
+  <a href="https://arxiv.org/pdf/2601.07055.pdf" target="_blank">PDF</a>
+</p>
+
+<p>
+A proposer–solver loop enables agents to generate their own curriculum and
+improve search behavior without labeled data.
+</p>
+
+<p style="background:#f2f3f7;padding:10px;border-radius:4px;">
+<code>Agent_{t+1} = Agent_t + ∇(self-eval reward)</code>
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<!-- 6 -->
+<h3 style="color:#41007F;">6. Agent-as-a-Judge</h3>
+<p style="margin:4px 0 10px 0;font-size:13px;">
+  <a href="https://arxiv.org/abs/2601.05111" target="_blank">Paper</a> ·
+  <a href="https://arxiv.org/pdf/2601.05111.pdf" target="_blank">PDF</a>
+</p>
+
+<p>
+Evaluation becomes an agentic process involving planning, tools, and memory,
+rather than a single-pass judgment.
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<h3 style="color:#41007F;">Synthesis</h3>
+
+<p style="font-style:italic;">
+In 2026, intelligence emerges from memory, control, and judgment—not just scale.
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+<p style="margin:20px 0 6px 0;
+          font-family:Segoe UI, Roboto, Arial,sans-serif;
+          font-size:13px;line-height:20px;color:#111111;">
+<strong>Check out last issue (1/7/26):</strong>
+<a href="claudecodecreator.html">Claude Code Creator’s Best Practices</a>
+</p>
+
+<p style="margin:0 0 0 0;
+          font-family:Segoe UI, Roboto, Arial,sans-serif;
+          font-size:13px;line-height:20px;color:#555555;">
+A practical guide to multi-agent orchestration, verification-first workflows,
+and shared memory files in real-world engineering teams.
+</p>
+
+<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;" />
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>

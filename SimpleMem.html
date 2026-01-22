@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" style="margin:0;padding:0;">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimpleMem Deep Dive</title>
+    <style>
+      @media screen and (max-width:600px) {
+        .container { width:100% !important; }
+        .p-24 { padding:20px !important; }
+        .h1 { font-size:24px !important; line-height:30px !important; }
+        .h2 { font-size:18px !important; line-height:24px !important; }
+      }
+    </style>
+  </head>
+
+  <body style="margin:0;padding:0;background:#f6f7fb;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f6f7fb;">
+      <tr>
+        <td align="center">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="container" width="100%"
+                 style="max-width:600px;margin:0 auto;background:#ffffff;">
+
+            <!-- Header -->
+            <tr>
+              <td style="padding:0;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="background:#41007F;color:#ffffff;padding:24px 24px 12px 24px;">
+                      <h1 class="h1" style="margin:0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                          font-size:26px;line-height:32px;font-weight:700;">
+                        SimpleMem Deep Dive
+                      </h1>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="background:#00A7E1;color:#081022;padding:8px 24px 16px 24px;">
+                      <h2 class="h2" style="margin:0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                          font-size:18px;line-height:24px;font-weight:600;">
+                        Interaction embeddings, memory slots, and “memory as control”
+                      </h2>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Content -->
+            <tr>
+              <td class="p-24" style="padding:24px 24px 18px 24px;">
+                <p style="margin:0 0 12px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  Agents typically do not store raw transcripts. Instead, they store <strong>interaction embeddings</strong>:
+                  compact vector representations of what just happened and why it matters for future steps.
+                </p>
+
+                <h3 style="margin:16px 0 8px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:18px;line-height:24px;color:#41007F;">
+                  1) Interaction Embeddings
+                </h3>
+
+                <p style="margin:0 0 10px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  At time step <code style="font-family:Consolas, Menlo, monospace;">t</code>, define the interaction as a structured object:
+                </p>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 12px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    x_t = (observation_t, action_t, outcome_t, goal_t)
+                  </code>
+                </div>
+
+                <p style="margin:0 0 10px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  An interaction embedding is:
+                </p>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 12px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    e_t = φ(x_t) ∈ ℝ^d
+                  </code>
+                </div>
+
+                <p style="margin:0 0 16px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  Here, <code style="font-family:Consolas, Menlo, monospace;">φ</code> is an encoder (embedding model or LLM “memory write” routine).
+                  The key is that <code style="font-family:Consolas, Menlo, monospace;">e_t</code> captures semantic signal
+                  (constraints, preferences, failures, decisions), not a verbatim log.
+                </p>
+
+                <h3 style="margin:0 0 8px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:18px;line-height:24px;color:#41007F;">
+                  2) Memory Slots and Indices
+                </h3>
+
+                <p style="margin:0 0 10px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  Memory is often a fixed-size set of <strong>slots</strong> under a budget:
+                </p>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 12px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    M_t = { m_1, m_2, …, m_B },  with  m_i ∈ ℝ^d
+                  </code>
+                </div>
+
+                <p style="margin:0 0 16px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  A “slot” is just one container <code style="font-family:Consolas, Menlo, monospace;">m_i</code>.
+                  The budget <code style="font-family:Consolas, Menlo, monospace;">B</code> forces consolidation and forgetting.
+                  Lowercase <code style="font-family:Consolas, Menlo, monospace;">i</code> indexes slots: <code style="font-family:Consolas, Menlo, monospace;">i ∈ {1,…,B}</code>.
+                </p>
+
+                <h3 style="margin:0 0 8px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:18px;line-height:24px;color:#41007F;">
+                  3) Selecting Where to Write
+                </h3>
+
+                <p style="margin:0 0 10px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  When writing, the agent chooses a slot index <strong>k</strong> by scoring each slot:
+                </p>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 12px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    k = argmax_{i ∈ {1,…,B}} score(s_t, e_t, m_i)
+                  </code>
+                </div>
+
+                <p style="margin:0 0 16px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  Here, <code style="font-family:Consolas, Menlo, monospace;">s_t</code> is the agent’s internal state
+                  (goal, plan, current context). The score can represent similarity, predicted usefulness, or merge-compatibility.
+                </p>
+
+                <h3 style="margin:0 0 8px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:18px;line-height:24px;color:#41007F;">
+                  4) Eviction Under Budget
+                </h3>
+
+                <p style="margin:0 0 10px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  If memory is full, the agent may evict the least useful slot:
+                </p>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 12px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    j_evict = argmin_{i ∈ {1,…,B}} utility(m_i)
+                  </code>
+                </div>
+
+                <p style="margin:0 0 16px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  Utility can be heuristic (recency/frequency) or learned (future helpfulness).
+                </p>
+
+                <h3 style="margin:0 0 8px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:18px;line-height:24px;color:#41007F;">
+                  5) Gated Consolidation (Merge Instead of Overwrite)
+                </h3>
+
+                <p style="margin:0 0 10px 0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  Many systems merge new information into the chosen slot using a learned gate:
+                </p>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 10px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    m_k ← g_t ⊙ m_k + (1 − g_t) ⊙ e_t
+                  </code>
+                </div>
+
+                <div style="background:#f2f3f7;padding:10px;border-radius:6px;margin:0 0 12px 0;">
+                  <code style="font-family:Consolas, Menlo, monospace;font-size:13px;line-height:18px;color:#111111;">
+                    g_t = σ( W [s_t ; e_t ; m_k] + b )
+                  </code>
+                </div>
+
+                <p style="margin:0;font-family:Segoe UI, Roboto, Arial, sans-serif;
+                    font-size:14px;line-height:21px;color:#111111;">
+                  If <code style="font-family:Consolas, Menlo, monospace;">g_t</code> is near 1, the slot stays stable.
+                  If near 0, the new interaction dominates. Between them is consolidation.
+                  This is why “memory” becomes a control problem: what to store, where, how strongly to merge, and what to forget.
+                </p>
+
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
