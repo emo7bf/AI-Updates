@@ -1,0 +1,186 @@
+<!--
+UFC High-Level Architecture — Detailed SVG (Emoji + Colored Dotted Regions)
+Figure X: UFC architecture showing UI, orchestration, agents, connectors, stores, and processes/controls loops.
+
+Save as: ufc_architecture_detailed.svg
+Open in: Chrome / Edge / Figma / PowerPoint
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1100" viewBox="0 0 1800 1100">
+  <defs>
+    <style>
+      /* Typography */
+      .title { font: 700 28px "Segoe UI", Roboto, Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 400 14px "Segoe UI", Roboto, Arial, sans-serif; fill: #4b5563; }
+      .h1 { font: 700 16px "Segoe UI", Roboto, Arial, sans-serif; fill: #111827; }
+      .h2 { font: 700 14px "Segoe UI", Roboto, Arial, sans-serif; fill: #111827; }
+      .t { font: 400 12px "Segoe UI", Roboto, Arial, sans-serif; fill: #1f2937; }
+      .mini { font: 400 11px "Segoe UI", Roboto, Arial, sans-serif; fill: #374151; }
+      .muted { fill: #6b7280; }
+
+      /* Regions (colored + dotted) */
+      .region-ui { fill: #eef2ff; stroke: #4f46e5; stroke-width: 2; stroke-dasharray: 8 8; rx: 26; }
+      .region-backend { fill: #ecfeff; stroke: #0891b2; stroke-width: 2; stroke-dasharray: 8 8; rx: 26; }
+      .region-agents { fill: #f0fdf4; stroke: #16a34a; stroke-width: 2; stroke-dasharray: 8 8; rx: 26; }
+      .region-connectors { fill: #fff7ed; stroke: #f97316; stroke-width: 2; stroke-dasharray: 8 8; rx: 26; }
+      .region-eval { fill: #f8fafc; stroke: #64748b; stroke-width: 2; stroke-dasharray: 8 8; rx: 26; }
+
+      /* Components */
+      .box { fill: #ffffff; stroke: #111827; stroke-width: 1.4; rx: 16; }
+      .soft { fill: #ffffff; stroke: #6b7280; stroke-width: 1.2; rx: 16; }
+      .chip { fill: #f3f4f6; stroke: #d1d5db; stroke-width: 1.0; rx: 12; }
+      .note { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.0; stroke-dasharray: 6 6; rx: 14; }
+
+      /* Arrows */
+      .arrow { stroke: #111827; stroke-width: 1.8; fill: none; marker-end: url(#arrow); }
+      .arrowSoft { stroke: #4b5563; stroke-width: 1.6; fill: none; marker-end: url(#arrowSoft); }
+      .arrowDash { stroke: #4b5563; stroke-width: 1.6; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrowSoft); }
+      .arrowPink { stroke: #db2777; stroke-width: 1.8; fill: none; marker-end: url(#arrowPink); }
+      .arrowGreenDash { stroke: #16a34a; stroke-width: 1.6; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrowGreen); }
+
+      /* Divider */
+      .divider { stroke: #cbd5e1; stroke-width: 1.2; }
+    </style>
+
+    <!-- Arrow markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#111827"/>
+    </marker>
+    <marker id="arrowSoft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#4b5563"/>
+    </marker>
+    <marker id="arrowPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#db2777"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1800" height="1100" fill="#f8fafc"/>
+
+  <!-- Header -->
+  <text x="40" y="55" class="title">🧠 Universal Framework for Chatbots (UFC) | Detailed Architecture</text>
+
+  <!-- REGION: UI -->
+  <rect x="40" y="120" width="420" height="420" class="region-ui"/>
+  <text x="65" y="155" class="h1">🎨 UI / Product Surface</text>
+  <text x="65" y="178" class="subtitle">/frontend</text>
+
+  <rect x="70" y="205" width="360" height="105" class="box"/>
+  <text x="92" y="235" class="h2">🧩 UFC Console</text>
+  <text x="92" y="260" class="t">Dropdowns: Datasets ⬇️ | Agents ⬇️ | Connectors ⬇️</text>
+  <text x="92" y="282" class="t">Checkboxes: enabled sources ✅ | environments ☁️</text>
+
+  <rect x="70" y="325" width="360" height="145" class="box"/>
+  <text x="92" y="355" class="h2">📌 Scope + Arch Review Inputs</text>
+  <text x="92" y="380" class="t">In-scope: __________________________</text>
+  <text x="92" y="402" class="t">Out-of-scope: _______________________</text>
+  <text x="92" y="424" class="t">Inputs: APIs • datasets • agents • constraints</text>
+  <text x="92" y="446" class="t">Run modes: demo • sandbox • prod (policy-gated)</text>
+
+  <!-- REGION: BACKEND -->
+  <rect x="490" y="120" width="760" height="420" class="region-backend"/>
+  <text x="515" y="155" class="h1">⚙️ Backend / Orchestration</text>
+  <text x="515" y="178" class="subtitle">/backend</text>
+
+  <rect x="520" y="205" width="700" height="135" class="box"/>
+  <text x="545" y="235" class="h2">🧠 Orchestrator API</text>
+  <text x="545" y="260" class="t">Responsibilities: routing • policy gates • logging • artifact export</text>
+  <text x="545" y="282" class="t">Interfaces: UI ⇄ Orchestrator ⇄ Agents ⇄ Connectors</text>
+  <text x="545" y="304" class="t">Outputs: runnable reference implementation • reports • benchmark runs</text>
+  <text x="545" y="326" class="t">Trace: request_id • tool_calls • citations • evaluation scores</text>
+
+  <rect x="520" y="360" width="335" height="165" class="soft"/>
+  <text x="545" y="390" class="h2">🧬 Context Engine</text>
+  <text x="545" y="414" class="t">Multi-string query reformulation ✍️</text>
+  <text x="545" y="436" class="t">Hybrid routing: keyword + vector + graph hops</text>
+  <text x="545" y="458" class="t">Context packing: evidence + metadata + provenance</text>
+  <text x="545" y="480" class="t">Not ingestion-heavy: focus on query-time intelligence</text>
+
+  <rect x="885" y="360" width="335" height="165" class="soft"/>
+  <text x="910" y="390" class="h2">📦 Artifact Builder</text>
+  <text x="910" y="414" class="t">Exports: /docs • /tests • reports • configs</text>
+  <text x="910" y="436" class="t">README.md: run + test instructions</text>
+  <text x="910" y="458" class="t">Connector inventory + permissions notes</text>
+  <text x="910" y="480" class="t">Benchmark bundle: metrics + dataset snapshots</text>
+
+  <!-- REGION: AGENTS -->
+  <rect x="40" y="565" width="1210" height="240" class="region-agents"/>
+  <text x="65" y="600" class="h1">🤖 Agent Layer</text>
+  <text x="65" y="623" class="subtitle">/agents</text>
+
+  <rect x="70" y="650" width="215" height="115" class="box"/>
+  <text x="92" y="680" class="h2">🧭 Planner</text>
+  <text x="92" y="705" class="t">Decompose task → steps</text>
+  <text x="92" y="727" class="t">Choose tools + strategies</text>
+  <text x="92" y="749" class="t">Enforce scope boundaries</text>
+
+  <rect x="300" y="650" width="215" height="115" class="box"/>
+  <text x="322" y="680" class="h2">🔎 Retriever</text>
+  <text x="322" y="705" class="t">Call connectors</text>
+  <text x="322" y="727" class="t">Rank evidence</text>
+  <text x="322" y="749" class="t">Track provenance</text>
+
+  <rect x="530" y="650" width="215" height="115" class="box"/>
+  <text x="552" y="680" class="h2">✍️ Generator</text>
+  <text x="552" y="705" class="t">Draft response</text>
+  <text x="552" y="727" class="t">Cite sources</text>
+
+
+
+  <!-- REGION: CONNECTORS -->
+  <rect x="1280" y="120" width="480" height="685" class="region-connectors"/>
+  <text x="1305" y="155" class="h1">🔌 Connectors + Integrations</text>
+  <text x="1305" y="178" class="subtitle">/connectors</text>
+
+  <rect x="1310" y="205" width="420" height="185" class="box"/>
+  <text x="1332" y="235" class="h2">Examples (for discussion)</text>
+  <!-- Tight line spacing to fit in the same box -->
+  <text x="1332" y="258" class="t">📂 SharePoint connector</text>
+  <text x="1332" y="276" class="t">💬 Microsoft Teams chat connector</text>
+  <text x="1332" y="294" class="t">🛎️ ServiceNow connector</text>
+  <text x="1332" y="312" class="t">❄️ Snowflake connector</text>
+  <text x="1332" y="330" class="t">🔐 SSO / AD connector</text>
+  <text x="1332" y="348" class="t">🪣 S3 Bucket connector</text>
+  <text x="1332" y="366" class="t">🧊 Blob storage connector</text>
+  <text x="1332" y="384" class="t">☁️ Azure (general connector)</text>
+
+  <rect x="1310" y="410" width="420" height="140" class="soft"/>
+  <text x="1332" y="440" class="h2">Connector Contract</text>
+  <text x="1332" y="464" class="t">Auth • read/search • rate limits</text>
+  <text x="1332" y="486" class="t">Test script + human-readable explanation</text>
+  <text x="1332" y="508" class="t">Ownership + permissions notes</text>
+
+  <rect x="1310" y="570" width="420" height="220" class="soft"/>
+  <text x="1332" y="600" class="h2">🗂️ Data Stores / Indexes</text>
+  <text x="1332" y="624" class="t">🧠 Vector: Milvus / FAISS</text>
+  <text x="1332" y="646" class="t">🕸️ Graph: Neo4j (nodes ↔ edges ↔ hops)</text>
+  <text x="1332" y="668" class="t">🔍 Search: Elastic / OpenSearch</text>
+  <text x="1332" y="690" class="t">🗃️ Relational DBs / Warehouses</text>
+  <text x="1332" y="712" class="t">📄 Docs / Wiki / Files</text>
+  <text x="1332" y="734" class="t">🧾 Logs / tickets / records</text>
+
+  <!-- REGION: PROCESSES + CONTROL -->
+  <rect x="40" y="825" width="1720" height="210" class="region-eval"/>
+  <text x="65" y="860" class="h1">🧾 Processes + Control</text>
+  <text x="65" y="883" class="subtitle">/governance • audit • controls • monitoring</text>
+
+  <rect x="70" y="910" width="560" height="95" class="box"/>
+  <text x="92" y="940" class="h2">🧾 Data Audit + Governance</text>
+  <text x="92" y="964" class="t">Audit trail: request_id • tool_calls • citations • approvals</text>
+  <text x="92" y="986" class="t">Lineage: source → chunk → answer mapping • retention policies</text>
+
+  <rect x="650" y="910" width="520" height="95" class="box"/>
+  <text x="672" y="940" class="h2">🔐 Controls + Policy</text>
+  <text x="672" y="964" class="t">Access: RBAC/ABAC • SSO • environment gating (demo-sandbox/dev/prod)</text>
+  <text x="672" y="986" class="t"> • permission reviews</text>
+
+  <rect x="1190" y="910" width="540" height="95" class="box"/>
+  <text x="1212" y="940" class="h2">📡 Monitoring + Change Management</text>
+  <text x="1212" y="964" class="t">Dashboards: relevance • latency • cost • consistency</text>
+  <text x="1212" y="986" class="t">incident review • versioned configs</text>
+
+ 
+</svg>
